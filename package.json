@@ -1,0 +1,21 @@
+{
+  "name": "broken_resolutions",
+  "version": "1.0.0",
+  "description": "The school.ai Dapp Final project",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "lite-server"
+  },
+  "author": "Karlos",
+  "license": "ISC",
+  "dependencies": {
+    "milligram": "^1.3.0"
+  },
+  "devDependencies": {
+    "lite-server": "^2.3.0"
+  }
+}
