@@ -49,7 +49,12 @@ contract('BrokenResolutions', async (accounts) => {
         assert.equal(await resolution1Instance.getIsAccepted.call(), false);
         await resolution1Instance.acceptResolution({ from: accounts[2] });
         assert.equal(await resolution1Instance.getIsAccepted.call(), false);
-        await resolution1Instance.acceptResolution({ from: accounts[3] });        
+
+        // Assert the event is emitted
+        let acceptResponse = await resolution1Instance.acceptResolution({ from: accounts[3] });
+        assert.equal(acceptResponse.logs[0].event, "AllAccepted", 'AllAccepted event should fire.');
+
+        // Check resolution is accepted
         assert.equal(await resolution1Instance.getIsAccepted.call(), true);
 
         // Check reward is received by account who made the resolution
@@ -127,4 +132,6 @@ contract('BrokenResolutions', async (accounts) => {
         let finalBalance = web3.fromWei(parseFloat(await resolution1Instance.getContractBalance.call()), "ether");
         assert.equal(finalBalance , 0);
     });
+
+
 });
