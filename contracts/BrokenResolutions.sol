@@ -5,9 +5,7 @@ contract BrokenResolutions {
     address[] public resolutions;
     mapping (uint => address) public resolutionToOwner;
 
-    function BrokenResolutions() public {
-        
-    }
+    // function BrokenResolutions() public {}
 
     function createResolution(string _resolutionText) public {
         address newResolution = new Resolution(_resolutionText, msg.sender);
@@ -17,5 +15,9 @@ contract BrokenResolutions {
 
     function getResolutionsCount() external view returns(uint) {
         return resolutions.length;
+    }
+
+    function getResolution(uint _index) external view returns(address) {
+        return resolutions[_index];
     }
 }
