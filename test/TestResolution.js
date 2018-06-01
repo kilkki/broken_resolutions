@@ -6,6 +6,9 @@ contract('BrokenResolutions', async (accounts) => {
     it("Should create a resolution and complete it", async () => {
         let instance = await BrokenResolutions.deployed();
 
+        // Register
+        await instance.register('User 1', { from: accounts[0] });
+
         // Create a new resolution
         await instance.createResolution("I will write more tests for now on.",{ from: accounts[0] });
 
@@ -17,16 +20,17 @@ contract('BrokenResolutions', async (accounts) => {
         let resolution1Address = await instance.getResolution(0);        
         let resolution1Instance = await Resolution.at(resolution1Address);
 
-        // console.log(await resolution1Instance.resolutionText.call());
-
         // Create rewards
         await resolution1Instance.CreateReward({ from: accounts[1], value: web3.toWei(0.5, "ether") });
         await resolution1Instance.CreateReward({ from: accounts[2], value: web3.toWei(0.15, "ether") });
         await resolution1Instance.CreateReward({ from: accounts[3], value: web3.toWei(0.35, "ether") });
+
+        // Create 2 rewards from one address
+        await resolution1Instance.CreateReward({ from: accounts[3], value: web3.toWei(0.35, "ether") });        
         
         // Check the total balance of resolution contract is 1
         let totalBalance = web3.fromWei(parseFloat(await resolution1Instance.getContractBalance.call()), "ether");
-        assert.equal(totalBalance , 1);
+        assert.equal(totalBalance, 1.35);
 
         // Check rewards are stored correctly for each user
         let reward_by_address1 = await resolution1Instance.getRewardByAddress(accounts[1]);
@@ -38,7 +42,7 @@ contract('BrokenResolutions', async (accounts) => {
         
         // Check total reward
         let totalReward = await resolution1Instance.totalReward.call();
-        assert.equal(1, web3.fromWei(parseFloat(totalReward), "ether"));
+        assert.equal(1.35, web3.fromWei(parseFloat(totalReward), "ether"));
 
         // Save balance of account1 before reward is received
         let account1Balance = parseFloat(web3.fromWei(web3.eth.getBalance(accounts[0]), "ether"));
@@ -63,7 +67,7 @@ contract('BrokenResolutions', async (accounts) => {
 
         // Check reward is received to account1
         let account1FinalBalance = parseFloat(web3.fromWei(web3.eth.getBalance(accounts[0]), "ether"));
-        assert.equal(account1Balance + 1, account1FinalBalance);
+        assert.equal(account1Balance + 1.35, account1FinalBalance);
 
         // Check resolution status is complete
         assert.equal(1, await resolution1Instance.resolutionStatus.call());
@@ -72,6 +76,9 @@ contract('BrokenResolutions', async (accounts) => {
 
     it("Should create a resolution and decline it", async () => {
         let instance = await BrokenResolutions.deployed();
+
+        // Register
+        await instance.register('User 4', { from: accounts[4] });
 
         // Create a new resolution
         await instance.createResolution("I will stop doing stupid things!",{ from: accounts[4] });
@@ -83,8 +90,6 @@ contract('BrokenResolutions', async (accounts) => {
         // Get instance of the resolution
         let resolution1Address = await instance.getResolution(1);        
         let resolution1Instance = await Resolution.at(resolution1Address);
-
-        // console.log(await resolution1Instance.resolutionText.call());
 
         // Create rewards
         await resolution1Instance.CreateReward({ from: accounts[5], value: web3.toWei(0.68, "ether") });
@@ -131,6 +136,34 @@ contract('BrokenResolutions', async (accounts) => {
         // Check the final balance of resolution contract is 0
         let finalBalance = web3.fromWei(parseFloat(await resolution1Instance.getContractBalance.call()), "ether");
         assert.equal(finalBalance , 0);
+    });
+
+    it("Test resolution details", async () => {
+        let instance = await BrokenResolutions.deployed();
+
+        let resolutionText = "I never drink again!";
+
+        // Create a new resolution
+        await instance.createResolution(resolutionText,{ from: accounts[4] });
+   
+        // Assert resolution was created
+        let resolutionCount = await instance.getResolutionsCount();
+        assert.equal(parseInt(resolutionCount), 3);
+
+        // Get instance of the resolution
+        let resolution1Address = await instance.getResolution(2);        
+        let resolution1Instance = await Resolution.at(resolution1Address);
+
+        // Create rewards
+        await resolution1Instance.CreateReward({ from: accounts[5], value: web3.toWei(0.68, "ether") });
+
+        // Check details are correct
+        let detailsData = await resolution1Instance.getDetails.call();
+        assert.equal(resolutionText, detailsData[0]);
+        assert.equal(0.68, web3.fromWei(parseFloat(detailsData[1])));
+        assert.equal(0, parseInt(detailsData[2]));
+        assert.equal("User 4", detailsData[3]);
+
     });
 
 

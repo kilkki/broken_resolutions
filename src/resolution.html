@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Top Trumps DApp - Register</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+
+                <div class="spacer"></div>
+                <div class="spacer"></div>
+
+                <h5>Players</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Resolution</th>
+                            <th scope="col">Total reward</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Creator</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="resolutions_placeholder">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createReward">
+            Create reward
+        </button>
+
+        <button id=btnAcceptResolution type="button" style="display: none;" class="btn btn-primary" onclick="acceptResolution()">
+            Accept
+        </button>
+
+
+    </div>
+
+    <div id="loader" class="loading"></div>
+
+    <!-- Create resolution Modal -->
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="createReward" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createReward">Create reward</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nameInput">Amount</label>
+                        <input type="number" class="form-control" id="createRewardInput" aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted">Amount in eth</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="createReward()">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/resolution.js"></script>
+    <script type="text/javascript" src="js/ethereumjs-testrpc.js"></script>
+    <script type="text/javascript" src="js/ethjs.js"></script>
+</body>
+
+</html>

@@ -2,6 +2,7 @@ pragma solidity ^0.4.16;
 
 contract Resolution {
     // Variables
+    string public creatorName;
     address public owner;
     string public resolutionText;
     uint public totalReward = 0;
@@ -15,14 +16,15 @@ contract Resolution {
     // Events
     event AllAccepted();
 
-    function Resolution(string _resolutionText, address _owner) public {
+    function Resolution(string _resolutionText, address _owner, string _creatorName) public {
         owner = _owner;
         resolutionText = _resolutionText;
+        creatorName = _creatorName;
     }
 
     function CreateReward() payable public returns (bool){
-        if(msg.value == 0) return false;
-
+        require(msg.value != 0);
+                
         rewards[msg.sender] = msg.value;
         totalReward += msg.value;
 
@@ -34,7 +36,7 @@ contract Resolution {
         // Save addresses to an array so we can loop it through when returning funds
         rewardCreators.push(msg.sender);
 
-        return true;
+        return true;       
     }
 
     function acceptResolution() public {
@@ -53,13 +55,7 @@ contract Resolution {
 
     function declineResolution() public {
         // Only people who have made rewards can decline the resolution
-        bool addressHaveMadeReward = false;
-        for (uint i = 0; i < acceptanceValues.length; i++) {
-            if (acceptValueToOwner[i] == msg.sender) {
-                addressHaveMadeReward = true;
-            }
-        }
-
+        bool addressHaveMadeReward = _addressHaveMadeReward(msg.sender);        
         assert(addressHaveMadeReward != false);
 
         // Decline and return funds
@@ -102,5 +98,26 @@ contract Resolution {
         return _checkIfAllIsAccepted();
     }
 
+    function _addressHaveMadeReward(address _address) private view returns(bool) {
+        bool returnValue = false;
+        for (uint i = 0; i < rewardCreators.length; i++) {
+            if (rewardCreators[i] == _address) {
+                returnValue = true;
+            }
+        }
+
+        return returnValue;
+    }
+
+    function getAddressHaveMadeReward() public view returns(bool) {
+        return _addressHaveMadeReward(msg.sender);
+    }
+    
+
+    // returns resolutionText, totalReward, resolutionStatus, creatorName
+    function getDetails() public view returns (string, uint, uint, string) {
+        return (resolutionText, totalReward, resolutionStatus, creatorName);
+
+    }
 
 }
