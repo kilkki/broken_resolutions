@@ -14,59 +14,71 @@
 </head>
 
 <body>
-  <h1>Broken Resolutions</h1>
-
-  <div id="loader" class="loading"></div>
-
-
   <div class="container">
+    <div class="spacer"></div>
+    <h1>Broken Resolutions</h1>
+    <h5>Are you tired of promises that are not kept?</h5>
+    <h5>Don't be no more. Now you can save your promise to blockchain and your friends can reward you!</h5>
+    <p>This mega app works this way:</p>
+    <p>You can make a resolution. People can give an amout of ether as a reward. You will receive all of the rewards when all who made rewards have accepted your resolution. If one of the people who made reward declines your resolution. The reward ethereum is returnet.</p>
+
+    <div id="loader" class="loading"></div>
 
     <div id="register_placeholder" class="row" style="display: none;">
-      <div class="col-sm">
-        <i>First you need to register.</i>        
-        <a id="btn_register" class="btn btn-primary" href="register.html">Register as a player</a>
-        
+      <div class="row">
+        <div class="col-sm">
+          <div class="spacer"></div>
+          <div class="spacer"></div>
+          <div class="spacer"></div>
+          <p>First you need to register.</p>
+          <a id="btn_register" class="btn btn-primary" href="register.html">Register your name</a>
+        </div>
       </div>
     </div>
 
     <div id="registered_placeholder" class="row" style="display: none;">
-      <div class="col-sm">
-        <h3>
-          <i>Hello </i>
-          <i id="player_info"></i>
-          <a id="btn_register" class="btn btn-primary" href="create_resolution.html">Create a resolution</a>
-
-
-        </h3>
-        
-      </div>
-    </div>
-s
-
-    <div class="row">
-        <div class="col-sm">
+      <div class="row">
           
-          <div class="spacer"></div>
-          <div class="spacer"></div>
-  
-          <h5>Players</h5>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Resolution</th>
-                <th scope="col">Total reward</th>
-                <th scope="col">Status</th>
-                <th scope="col">Creator</th>
-                <th scope="col">Accepted</th>
-                <th scope="col"></th>
+        <div class="col-sm">
+            <div class="spacer"></div>
+            <div class="spacer"></div>
+          <h3>
+            <i>Hello </i>
+            <i id="player_info"></i>
+          </h3>
+            <a id="btn_register" class="btn btn-primary" href="create_resolution.html">Create a resolution</a>
 
-              </tr>
-            </thead>
-            <tbody id="resolutions_placeholder">
-            </tbody>
-          </table>
+
+          
+
         </div>
       </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm">
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+
+        <h5>Resolution made by other people</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Resolution</th>
+              <th scope="col">Reward</th>
+              <th scope="col">Status</th>
+              <th scope="col">Name of the person who promised this</th>
+              <th scope="col">Accepted</th>
+              <th scope="col"></th>
+
+            </tr>
+          </thead>
+          <tbody id="resolutions_placeholder">
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
 
@@ -86,31 +98,31 @@ s
 
 
 
-   <!-- Create resolution Modal -->
-   <div class="modal fade" data-backdrop="static" data-keyboard="false" id="createResolutionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-   aria-hidden="true">
-   <div class="modal-dialog" role="document">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h5 class="modal-title" id="createResolutionModal">Create new resolution</h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-         </button>
-       </div>
-       <div class="modal-body">
-         <div class="form-group">
-           <label for="nameInput">I promise</label>
-           <input type="text" class="form-control" id="resolutionTextInput" aria-describedby="emailHelp" placeholder="What you want to promise?">
-           <small id="emailHelp" class="form-text text-muted">e.g. I will quit smoking</small>
-         </div>
-       </div>
-       <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         <button type="button" class="btn btn-primary" onclick="createResolution()">Create</button>
-       </div>
-     </div>
-   </div>
- </div>
+  <!-- Create resolution Modal -->
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="createResolutionModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createResolutionModal">Create new resolution</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="nameInput">I promise</label>
+            <input type="text" class="form-control" id="resolutionTextInput" aria-describedby="emailHelp" placeholder="What you want to promise?">
+            <small id="emailHelp" class="form-text text-muted">e.g. I will quit smoking</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="createResolution()">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 

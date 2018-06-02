@@ -22,17 +22,17 @@
                 <div class="spacer"></div>
                 <div class="spacer"></div>
 
-                <h5>Players</h5>
+                <h5>Details of the resolution</h5>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Resolution</th>
+                            <th scope="col">What have been so happily sworn</th>
                             <th scope="col">Total reward</th>
                             <th scope="col">Status</th>
                             <th scope="col">Creator</th>
-                            
+
                             <th scope="col">Resolution acceptance status</th>
-                            
+
                         </tr>
                     </thead>
                     <tbody id="resolutions_placeholder">
@@ -40,13 +40,20 @@
                 </table>
             </div>
         </div>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createReward">
+        <button id=btnCreateReward type="button" style="display: none;" class="btn btn-primary" data-toggle="modal" data-target="#createReward">
             Create reward
         </button>
 
         <button id=btnAcceptResolution type="button" style="display: none;" class="btn btn-primary" onclick="acceptResolution()">
             Accept
         </button>
+
+        <button id=btnDeclineResolution type="button" style="display: none;" class="btn btn-warning" onclick="declineResolution()">
+            Decline
+        </button>
+
+        <button class="btn btn-default" onclick="back()">Back</a>
+
 
 
     </div>
