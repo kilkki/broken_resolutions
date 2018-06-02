@@ -56,7 +56,10 @@ App = {
         var totalRewardInEth =  web3.fromWei(parseFloat(result[1], "ether"));
         console.log(result);
         resolutions_placeholder.innerHTML += '<tr><td>' + result[0] + '</td><td>' + totalRewardInEth + 'ether</td><td>' +
-        result[2] + `</td><td>` + result[3] + `</td><td><tr>`;    
+        result[2] + `</td><td>` +
+        result[3] + `</td><td>` + 
+        result[5] + `/` + result[4] + `</td><td>` +        
+        `</td><td><tr>`;    
     });
     
     App.deployed.getAddressHaveMadeReward().then(function (result) {        

@@ -112,11 +112,37 @@ contract Resolution {
     function getAddressHaveMadeReward() public view returns(bool) {
         return _addressHaveMadeReward(msg.sender);
     }
+
+    function getNumberOfAccepted() private view returns (uint) {
+        uint result = 0;
+
+        for (uint i = 0; i < acceptanceValues.length; i++) {
+            if (acceptanceValues[i] == true && acceptValueToOwner[i] != owner) {
+                result += 1;
+            }
+        }
+
+        return result;
+    }
+
+    function getNumberOfRewardCreators() private view returns(uint) {        
+        uint result = 0;
+
+        for (uint i = 0; i < rewardCreators.length; i++) {
+            if (rewardCreators[i] != owner) {
+                result += 1;
+            }
+        }
+
+        return result;
+    }
     
 
-    // returns resolutionText, totalReward, resolutionStatus, creatorName
-    function getDetails() public view returns (string, uint, uint, string) {
-        return (resolutionText, totalReward, resolutionStatus, creatorName);
+    // returns resolutionText, totalReward, resolutionStatus, creatorName, number of rewards, number of accepted
+    function getDetails() public view returns (string, uint, uint, string, uint, uint) {
+
+
+        return (resolutionText, totalReward, resolutionStatus, creatorName, getNumberOfRewardCreators(), getNumberOfAccepted());
 
     }
 

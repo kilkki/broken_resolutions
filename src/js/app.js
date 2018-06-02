@@ -127,8 +127,11 @@ var getInstanceOfResolution = function (address) {
 };
 
 var getResolutions = function () {
+  loading(false);
   let x = App.deployed.getResolutions().then(function (result) {
     result.forEach(function (resolution) {
+      loading(true);
+
       console.log(resolution);
 
       $.getJSON('Resolution.json', function (data) {
@@ -146,7 +149,9 @@ var getResolutions = function () {
             console.log(result);
 
             resolutions_placeholder.innerHTML += '<tr><td>' + result[0] + '</td><td>' + result[1] + '</td><td>' +
-            result[2] + `</td><td>` + result[3] + `</td><td>` +
+            result[2] + `</td><td>` + 
+            result[3] + `</td><td>` +
+            result[5] + `/` + result[4] + `</td><td>` +
             `<button class="btn btn-info btn-sm" onclick="openResolution('` + resolution + `')">Show</button>`;
             + `</td></tr>`;
 
