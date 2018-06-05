@@ -40,8 +40,6 @@ var initContract = function () {
   });
 };
 
-
-
 var getAccounts = function () {
   App.accounts = web3.eth.accounts;
   if (App.accounts.length == 1) {
@@ -51,28 +49,8 @@ var getAccounts = function () {
   }
 }
 
-// var register = function () {
-//   console.log("register");
-
-//   App.contracts.CardFactory.deployed().then(function (instance) {
-//     cardFactoryInstance = instance;
-
-//     console.log("Register player");
-//     var name = $("#nameInput").val();
-//     cardFactoryInstance.register(name).then(function (result) {      
-//       $('#registerModal').modal('hide');
-//       setRegisteredElementsVisible(true);
-
-//     });
-//   })
-// }
-
-
-
 var www3Ready = function () {
   checkIfAreRegistered();
-  
-
 }
 
 var checkIfAreRegistered = function () {
@@ -90,25 +68,7 @@ var checkIfAreRegistered = function () {
     }
   });
 
-  getResolutions();
-
-  // App.deployed.getPlayers.call().then(function (result) {
-
-  //   result.forEach(function (player) {
-  //     if (player != App.accounts[0]) {
-  //       App.deployed.playerId(player).then(function (result) {
-  //         var playerId = result;
-
-  //         App.deployed.getPlayerName.call(player).then(function (result) {
-  //           var opponentName = result;
-  //           other_players.innerHTML += '<tr><td>' + opponentName + '</td><td><span class="badge badge-success">' + cardCount + '</span></td><td>' +
-  //             `<button class="btn btn-info btn-sm" onclick="playWith(` + playerId + `,'` + opponentName + `')">Play with</button></td></tr>`;
-
-  //         });
-  //       });
-  //     }
-  //   });
-  // });
+  getResolutions(); 
 }
 
 var GetURLParameter = function (sParam) {
@@ -132,8 +92,6 @@ var getResolutions = function () {
     result.forEach(function (resolution) {
       loading(true);
 
-      console.log(resolution);
-
       $.getJSON('Resolution.json', function (data) {
         // Get the necessary contract artifact file and instantiate it with truffle-contract
         var ResolutionFactoryArtifact = data;
@@ -146,42 +104,39 @@ var getResolutions = function () {
           //return instance;
 
           instance.getDetails().then(function (result) {
-            console.log(result);
             let rewardInEth = web3.fromWei(parseFloat(result[1], "ether"));
 
             resolutions_placeholder.innerHTML += '<tr><td>' + 
             result[0] + '</td><td>' + 
             rewardInEth + ' Ether</td><td>' +
-            result[2] + `</td><td>` + 
+            getStatusBadge(result[2]) + `</td><td>` + 
             result[3] + `</td><td>` +
             result[5] + `/` + result[4] + `</td><td>` +
             `<button class="btn btn-info btn-sm" onclick="openResolution('` + resolution + `')">Show</button>`;
             + `</td></tr>`;
 
             loading(false);
-
-
-            // `<button class="btn btn-info btn-sm" onclick="playWith(` + playerId + `,'` + opponentName + `')">Play with</button></td></tr>`;
-
-
-            // resolutions_placeholder.innerHTML +=
-            //   `<div class="row">
-            //   <div class="col-sm"><p>I promise: ` +
-            //   result[0] + `</p><p> Total reward: ` +
-
-            //   result[1] + `</p><p> Status: ` +
-            //   result[2] + `</p> <p>Who poor bastard said this: ` +
-            //   result[3]
-            //   + `</p></div>
-            // </div>`
           });
         });
       });
-
-
-
     });
   });
+}
+
+var getStatusBadge = function(status) {
+  let returnValue = "";
+
+  if (status == 1) {
+    returnValue = `<span class="badge badge-success">Success</span>`;
+  }
+  if (status == 0) {
+    returnValue = `<span class="badge badge-primary">Open</span>`;
+  }
+  if (status == 2) {
+    returnValue = `<span class="badge badge-warning">Rejected</span>`;
+  }
+
+  return returnValue;
 }
 
 var openResolution = function (id) {

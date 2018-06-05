@@ -22,7 +22,6 @@ App = {
   var initContract = function () {
     var address = GetURLParameter("id");
 
-    console.log("init satt " + address);
     $.getJSON('Resolution.json', function (data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       var BrokenResolutionArtifact = data;
@@ -54,29 +53,43 @@ App = {
     console.log("Init ready.");
     App.deployed.getDetails().then(function (result) {
         var totalRewardInEth =  web3.fromWei(parseFloat(result[1], "ether"));
-        console.log(result);
         resolutions_placeholder.innerHTML += '<tr><td>' + result[0] + '</td><td>' + totalRewardInEth + ' ether</td><td>' +
-        result[2] + `</td><td>` +
+        getStatusBadge(result[2]) + `</td><td>` +
         result[3] + `</td><td>` + 
         result[5] + `/` + result[4] + `</td><td>` +        
         `</td><td><tr>`;    
     });
+
+    var getStatusBadge = function(status) {
+        let returnValue = "";
+      
+        if (status == 1) {
+          returnValue = `<span class="badge badge-success">Success</span>`;
+        }
+        if (status == 0) {
+          returnValue = `<span class="badge badge-primary">Open</span>`;
+        }
+        if (status == 2) {
+          returnValue = `<span class="badge badge-warning">Rejected</span>`;
+        }
+      
+        return returnValue;
+      }
     
-    App.deployed.getAddressHaveMadeReward().then(function (result) {        
+    App.deployed.getAddressHaveMadeReward().then(function (result) {    
+        $('#btnCreateReward').show();
+    
         if (result == true) {
-            console.log("have made");
-            // setAcceptButtonVisible();
             $('#btnAcceptResolution').show();
             $('#btnDeclineResolution').show();
 
             App.deployed.getDetails().then(function (result) {        
                 if (result[2] == 1 || result[2] == 2) {
-                    console.log("Resolution closed");
                     hideAcceptButtonVisible();
                 }
         
                 if (result[2] == 0) {
-                    console.log("Resolution open");
+                    console.log(" open");
                     $('#btnCreateReward').show();
                 }
             });
@@ -101,22 +114,15 @@ App = {
   }
 
   var acceptResolution = function() {
-    console.log("ACCEPT");
-
     App.deployed.acceptResolution().then(function (result) {
-        console.log(result);
         location.reload();
     });
   }
 
   var declineResolution = function() {
-    console.log("DECLINE");
-
     App.deployed.declineResolution().then(function (result) {
-        console.log(result);
         location.reload();
     });
-
   }
   
   var GetURLParameter = function (sParam) {
@@ -140,7 +146,6 @@ App = {
     }
 
     App.deployed.CreateReward({value: rewardValue}).then(function (result) {
-        console.log("Reward created");
         location.reload();
     });
   }

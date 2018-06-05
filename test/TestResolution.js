@@ -53,6 +53,7 @@ contract('BrokenResolutions', async (accounts) => {
 
         // Check Details. One jave accepted
         let resolutionDetails1 = await resolution1Instance.getDetails.call();
+        assert.equal(0, resolutionDetails1[2]);
         assert.equal(4, resolutionDetails1[4]);
         assert.equal(1, resolutionDetails1[5]);
 
@@ -60,7 +61,8 @@ contract('BrokenResolutions', async (accounts) => {
         await resolution1Instance.acceptResolution({ from: accounts[2] });
 
         // Check Details. Two have accepted
-        let resolutionDetails2 = await resolution1Instance.getDetails.call();
+        let resolutionDetails2 = await resolution1Instance.getDetails();
+        assert.equal(0, resolutionDetails2[2]);
         assert.equal(4, resolutionDetails2[4]);
         assert.equal(2, resolutionDetails2[5]);
 
@@ -73,6 +75,7 @@ contract('BrokenResolutions', async (accounts) => {
 
         // Check Details. All have accepted
         let resolutionDetails3 = await resolution1Instance.getDetails.call();
+        assert.equal(1, resolutionDetails3[2]);
         assert.equal(4, resolutionDetails3[4]);
         assert.equal(4, resolutionDetails3[5]);
 

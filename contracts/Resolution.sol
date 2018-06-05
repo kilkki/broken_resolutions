@@ -73,10 +73,10 @@ contract Resolution {
     function _checkIfAllIsAccepted() view private returns(bool) {
         if(acceptanceValues.length == 0) return false;
 
-        bool returnValue = true;
+        bool returnValue = false;
 
         for (uint i = 0; i < acceptanceValues.length; i++) {
-            returnValue = acceptanceValues[i];
+            returnValue = acceptanceValues[i] == true;
         }
 
         return returnValue;
@@ -137,13 +137,8 @@ contract Resolution {
         return result;
     }
     
-
     // returns resolutionText, totalReward, resolutionStatus, creatorName, number of rewards, number of accepted
     function getDetails() public view returns (string, uint, uint, string, uint, uint) {
-
-
         return (resolutionText, totalReward, resolutionStatus, creatorName, getNumberOfRewardCreators(), getNumberOfAccepted());
-
     }
-
 }
