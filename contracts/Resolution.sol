@@ -1,4 +1,4 @@
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.21;
 
 contract Resolution {
     // Variables
@@ -73,10 +73,13 @@ contract Resolution {
     function _checkIfAllIsAccepted() view private returns(bool) {
         if(acceptanceValues.length == 0) return false;
 
-        bool returnValue = false;
+        bool returnValue = true;
 
         for (uint i = 0; i < acceptanceValues.length; i++) {
-            returnValue = acceptanceValues[i] == true;
+            // If for some reason the owner make a reward. He doens't have to accept it.
+            if (acceptValueToOwner[i] != owner) {                
+                returnValue = returnValue && acceptanceValues[i];
+            }
         }
 
         return returnValue;
@@ -117,6 +120,7 @@ contract Resolution {
         uint result = 0;
 
         for (uint i = 0; i < acceptanceValues.length; i++) {
+            // Dont count own reward
             if (acceptanceValues[i] == true && acceptValueToOwner[i] != owner) {
                 result += 1;
             }
