@@ -7,8 +7,6 @@ App = {
   instance: null,
 }
 
-
-
 var initWeb3 = function () {
   loading(true);
 
@@ -23,7 +21,7 @@ var initWeb3 = function () {
 };
 
 var initContract = function () {
-  $.getJSON('BrokenResolutions.json', function (data) {
+  $.getJSON('https://s3.eu-central-1.amazonaws.com/broken-resolutions/build/contracts/BrokenResolutions.json', function (data) {
     // Get the necessary contract artifact file and instantiate it with truffle-contract
     var CardFactoryArtifact = data;
     App.contracts.CardFactory = TruffleContract(CardFactoryArtifact);
@@ -31,7 +29,8 @@ var initContract = function () {
     // Set the provider for our contract
     App.contracts.CardFactory.setProvider(App.web3Provider);
 
-    App.contracts.CardFactory.deployed().then(function (instance) {
+    //App.contracts.CardFactory.deployed().then(function (instance) {
+      App.contracts.CardFactory.at('0x179A5729e9faBFE457319F1d655e84713ba31Ba5').then(function (instance) {
       return instance;
     }).then(function (instance) {
       App.deployed = instance;
@@ -92,7 +91,7 @@ var getResolutions = function () {
     result.forEach(function (resolution) {
       loading(true);
 
-      $.getJSON('Resolution.json', function (data) {
+      $.getJSON('https://s3.eu-central-1.amazonaws.com/broken-resolutions/build/contracts/Resolution.json', function (data) {
         // Get the necessary contract artifact file and instantiate it with truffle-contract
         var ResolutionFactoryArtifact = data;
         App.contracts.Resolution = TruffleContract(ResolutionFactoryArtifact);
@@ -167,12 +166,12 @@ var setRegisteredElementsVisible = function (isRegistered) {
   }
 }
 
-
 $(document).ready(function () {
   console.log("Init start.");
 
-  initWeb3();
-
+ initWeb3();
+ //getAccounts();
+ //loading(false);
   if (getAccounts()) {
     initContract();
     $("#your_address").text(App.accounts[0]);

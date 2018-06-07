@@ -6,8 +6,6 @@ contract BrokenResolutions is PlayerService {
     address[] public resolutions;
     mapping (uint => address) public resolutionToOwner;
 
-    // function BrokenResolutions() public {}
-
     function createResolution(string _resolutionText) public {
         address newResolution = new Resolution(_resolutionText, msg.sender, playerName[msg.sender]);
         uint id = resolutions.push(newResolution) - 1;

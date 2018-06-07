@@ -20,7 +20,7 @@ App = {
   };
   
   var initContract = function () {
-    $.getJSON('BrokenResolutions.json', function (data) {
+    $.getJSON('https://s3.eu-central-1.amazonaws.com/broken-resolutions/build/contracts/BrokenResolutions.json', function (data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       var BrokenResolutionsArtifact = data;
       App.contracts.BrokenResolutions = TruffleContract(BrokenResolutionsArtifact);
@@ -28,7 +28,7 @@ App = {
       // Set the provider for our contract
       App.contracts.BrokenResolutions.setProvider(App.web3Provider);
   
-      App.contracts.BrokenResolutions.deployed().then(function (instance) {
+      App.contracts.BrokenResolutions.at('0x179A5729e9faBFE457319F1d655e84713ba31Ba5').then(function (instance) {
         return instance;
       }).then(function (instance) {
         App.deployed = instance;
@@ -51,15 +51,15 @@ App = {
     loading(true);
 
   
-    App.contracts.BrokenResolutions.deployed().then(function (instance) {
-      resolutionInstance = instance;
+    //App.contracts.BrokenResolutions.deployed().then(function (instance) {
+    //  resolutionInstance = instance;
   
       var text = $("#resolutionTextInput").val();
-      resolutionInstance.createResolution(text).then(function (result) {
+      App.deployed.createResolution(text, {gas: 4700000, gasPrice: 1000000000}).then(function (result) {
         loading(false);
         back();
       });
-    })
+   // })
   }
   
   var back = function () {

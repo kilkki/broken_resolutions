@@ -22,7 +22,7 @@ App = {
   var initContract = function () {
     var address = GetURLParameter("id");
 
-    $.getJSON('Resolution.json', function (data) {
+    $.getJSON(' https://s3.eu-central-1.amazonaws.com/broken-resolutions/build/contracts/Resolution.json', function (data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       var BrokenResolutionArtifact = data;
       App.contracts.BrokenResolution = TruffleContract(BrokenResolutionArtifact);
@@ -137,6 +137,10 @@ App = {
   }
 
   var createReward = function() {
+    loading(true);
+
+    $('#createReward').modal('hide')
+
     var rewardValue = web3.toWei(parseFloat($("#createRewardInput").val(), "ether"));
     
     // Check value is numeric
@@ -145,7 +149,7 @@ App = {
         return;
     }
 
-    App.deployed.CreateReward({value: rewardValue}).then(function (result) {
+    App.deployed.CreateReward({value: rewardValue, gas: 4700000, gasPrice: 1000000000}).then(function (result) {
         location.reload();
     });
   }
