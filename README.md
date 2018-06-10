@@ -3,7 +3,9 @@
 
 This is a final project for the school of ai's Decentralized Applications course.
 
-[Live Demo](https://s3.eu-central-1.amazonaws.com/broken-resolutions/index.html)
+### Live demo ###
+1. Connect to Ropsten test network using MetaMask
+2. [Go to demo page](https://s3.eu-central-1.amazonaws.com/broken-resolutions/index.html)
 
 
 ### Install ###
